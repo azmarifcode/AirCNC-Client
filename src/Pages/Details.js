@@ -8,6 +8,7 @@ import {
   UserIcon,
 } from '@heroicons/react/24/solid'
 import React from 'react'
+import { Link } from 'react-router-dom'
 import PrimaryButton from '../Components/Button/PrimaryButton'
 
 const Details = () => {
@@ -185,12 +186,14 @@ const Details = () => {
             <span className='ml-auto text-gray-900'>${total}</span>
           </div>
           <div className='mt-6 mb-2'>
-            <PrimaryButton
-              type='submit'
-              classes='w-full px-4 py-2 tracking-wide transition-colors duration-300 transform rounded-md'
-            >
-              Reserve
-            </PrimaryButton>
+            <Link to={'/checkout'}>
+              <PrimaryButton
+                type='submit'
+                classes='w-full px-4 py-2 tracking-wide transition-colors duration-300 transform rounded-md'
+              >
+                Reserve
+              </PrimaryButton>
+            </Link>
           </div>
           <p className='text-center text-gray-400 mb-6'>
             You won't be charged yet!
