@@ -1,7 +1,9 @@
 import React, { useContext } from 'react';
 import toast from 'react-hot-toast';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { setAuthToken } from '../../API/auth';
 import PrimaryButton from '../../Components/Button/PrimaryButton';
+import SmallSpinner from '../../Components/Spinner/SmallSpinner';
 import { AuthContext } from '../../contexts/AuthProvider';
 
 const Signup = () => {
@@ -13,6 +15,7 @@ const Signup = () => {
         setLoading,
         signInWithGoogle,
     } = useContext(AuthContext);
+    const navigate = useNavigate();
     const handleSubmit = (event) => {
         event.preventDefault();
         const form = event.target;
@@ -31,8 +34,10 @@ const Signup = () => {
         })
             .then((res) => res.json())
             .then((imageData) => {
+                console.log(imageData);
                 createUser(email, password)
-                    .then(() => {
+                    .then((result) => {
+                        setAuthToken(result.user);
                         updateUserProfile(name, imageData.data.display_url)
                             .then(() => {
                                 verifyEmail()
@@ -40,19 +45,39 @@ const Signup = () => {
                                         toast.success(
                                             'Please check your email for email verify link',
                                         );
+                                        setLoading(false);
+                                        navigate('/');
                                         form.reset();
                                     })
-                                    .catch((err) => console.error(err));
+                                    .catch((err) => {
+                                        console.error(err);
+                                        toast.error(err.message.slice(22, -2));
+                                        setLoading(false);
+                                    });
                             })
-                            .catch((err) => console.error(err));
+                            .catch((err) => {
+                                console.error(err);
+                                toast.error(err.message.slice(22, -2));
+                                setLoading(false);
+                            });
                     })
-                    .catch((err) => console.error(err));
+                    .catch((err) => {
+                        console.error(err);
+                        toast.error(err.message.slice(22, -2));
+                        setLoading(false);
+                    });
             })
-            .catch((err) => console.error(err));
+            .catch((err) => {
+                console.error(err);
+                toast.error(err.message.slice(22, -2));
+                setLoading(false);
+            });
     };
     const handleGoogle = () => {
-        signInWithGoogle().then(() => {
+        signInWithGoogle().then((result) => {
+            setAuthToken(result.user);
             toast.success('successfully login');
+            navigate('/');
         });
     };
     return (
@@ -137,7 +162,7 @@ const Signup = () => {
                             <PrimaryButton
                                 type="submit"
                                 classes="w-full px-8 py-3 font-semibold rounded-md bg-gray-900 hover:bg-gray-700 hover:text-white text-gray-100">
-                                Sign up
+                                {loading ? <SmallSpinner /> : 'Sign In'}
                             </PrimaryButton>
                         </div>
                     </div>
