@@ -41,7 +41,8 @@ const Navbar = () => {
                                 {isDropdownOpen && (
                                     <div className="absolute right-0 z-20 w-48 py-2 mt-2 bg-white rounded-md shadow-xl ">
                                         <Link
-                                            to="/Dashboard"
+                                            to="/dashboard"
+                                            onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                                             className="flex items-center px-3 py-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform  hover:bg-gray-100 ">
                                             <svg
                                                 className="w-5 h-5 mx-1"
@@ -63,7 +64,12 @@ const Navbar = () => {
 
                                         <hr className="border-gray-200" />
                                         <div
-                                            onClick={handleLogout}
+                                            onClick={() => {
+                                                setIsDropdownOpen(
+                                                    !isDropdownOpen,
+                                                );
+                                                handleLogout();
+                                            }}
                                             className="flex items-center cursor-pointer p-3 text-sm text-gray-600 capitalize transition-colors duration-200 transform  hover:bg-gray-100 ">
                                             <svg
                                                 className="w-5 h-5 mx-1"

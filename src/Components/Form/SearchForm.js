@@ -3,26 +3,30 @@ import PrimaryButton from '../Button/PrimaryButton';
 import { CalendarIcon } from '@heroicons/react/20/solid';
 import DatePicker from 'react-datepicker';
 import { useNavigate } from 'react-router-dom';
+import { differenceInCalendarDays } from 'date-fns';
 
 const SearchForm = () => {
     const [location, setLocation] = useState('Dhaka');
     const [arrivalDate, setArrivalDate] = useState(new Date());
     const [departureDate, setDepartureDate] = useState(
         new Date(arrivalDate.getTime() + 48 * 60 * 60 * 1000),
-  );
-  const navigate = useNavigate()
+    );
+
+    //     const datePicke = differenceInCalendarDays(new Date(departureDate), new Date(arrivalDate))
+    // console.log(datePicke);
+    const navigate = useNavigate();
     const handleSubmit = (event) => {
         event.preventDefault();
-      //   console.log(arrivalDate);
-      // console.log(departureDate);
-      
-      const query = {
-        location,
-        from: arrivalDate,
-        to: departureDate
-      }
-      // console.log(query);
-      navigate('/search-result', {state: query})
+        //   console.log(arrivalDate);
+        // console.log(departureDate);
+
+        const query = {
+            location,
+            from: arrivalDate,
+            to: departureDate,
+        };
+        // console.log(query);
+        navigate('/search-result', { state: query });
     };
     return (
         <div className="w-full max-w-sm p-6 m-auto mx-auto">

@@ -27,7 +27,7 @@ const Signup = () => {
         const formData = new FormData();
         formData.append('image', image);
 
-        const url = `https://api.imgbb.com/1/upload?key=20fe29500930fb40cb220a263dabd87a`;
+        const url = `https://api.imgbb.com/1/upload?key=${process.env.REACT_APP_IMGBB_KEY}`;
         fetch(url, {
             method: 'POST',
             body: formData,
